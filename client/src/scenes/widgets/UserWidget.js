@@ -19,7 +19,7 @@ import {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
     const token = useSelector((state) => state.token);
-  console.log(token)
+
     const getUser = async () => {
       const response = await fetch(`http://localhost:3001/users/${userId}`, {
         method: "GET",
@@ -51,10 +51,10 @@ import {
       location,
       occupation,
       viewedProfile,
-      impressions,
+      impression,
       friends,
     } = user;
-
+    console.log(impression,viewedProfile)
   
     return (
       <WidgetWrapper sx={{    boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',}} backgroundColor={colorToken.sky}>
@@ -118,7 +118,7 @@ import {
           <FlexBetween>
             <Typography color={colorToken.black}>Impressions of your post</Typography>
             <Typography color={colorToken.black} fontWeight="500">
-              {impressions}
+              {impression}
             </Typography>
           </FlexBetween>
         </Box>

@@ -1,6 +1,16 @@
 import bcrypt from "bcrypt";
 import  jwt  from "jsonwebtoken";
 import User from '../model/user.js';
+import nodemailer from 'nodemailer'
+
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'musthafa.id78@gmail.com',
+    pass: '',
+  },
+});
 
 export const  register=async(req,res)=>{
     
@@ -34,6 +44,7 @@ export const  register=async(req,res)=>{
         impression:Math.floor(Math.random()*10000)
        })
        const savedUser=await newUser.save();
+       sendWelcomeEmail(email);
        res.status(201).json(savedUser);
     }catch (err){
   res.status(500).json({error:err.message})
@@ -60,3 +71,20 @@ export const login = async (req, res) => {
     }
   };
 
+  function sendWelcomeEmail(to) {
+    const mailOptions = {
+      from: 'musthafa.id78@gmail.com',
+      to,
+      subject: 'Welcome to YourApp!',
+      text: 'Thank you for registering with YourApp. We are excited to have you on board!',
+    };
+  
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log('Welcome email sent: ' + info.response);
+      }
+    });
+  }
+  

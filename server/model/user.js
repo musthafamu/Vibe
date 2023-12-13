@@ -31,6 +31,9 @@ const Userschema=new mongoose.Schema(
             min:5,
             
         },
+        twitter:String,
+        LinkedIn:String,
+        
         picturePath:{
             type:String,
             default:"",

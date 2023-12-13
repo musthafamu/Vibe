@@ -5,11 +5,12 @@ import React from 'react'
 import {setPosts} from '../../state/index';
 import PostWidget from './PostWidget';
 import { Box } from '@mui/material';
+
 export const PostsWidget = ({ userId, isProfile = false }) => {
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.posts);
     const token = useSelector((state) => state.token);
-  
+    console.log(token)
     const getPosts = async () => {
       const response = await fetch("http://localhost:3001/posts", {
         method: "GET",
@@ -40,10 +41,10 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
       }, []); 
     
   return  (
- 
  <Box>  
  {posts.map(
         ({
+        
           _id,
           userId,
           firstName,
@@ -55,10 +56,9 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
           likes,
           comments,
         }) => (
-          <Box sx={{    boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',}}>
+          <Box   key={_id} sx={{    boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',}}>
 
           <PostWidget
-            key={_id}
             postId={_id}
             postUserId={userId}
             name={`${firstName} ${lastName}`}

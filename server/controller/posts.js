@@ -7,7 +7,7 @@ export const createPost = async (req, res) => {
   try {
     const { userId, description, picturePath } = req.body;
     const user = await User.findById(userId);
-    const newPost = new Post({
+    const newPost = await Post.create({
       userId,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -59,6 +59,7 @@ export const likePost=async(req,res)=>{
   if(isLiked){
     post.likes.delete(userId);
   }else{
+
     post.likes.set(userId,true)
   };
   const updatedPost=await Post.findByIdAndUpdate(
