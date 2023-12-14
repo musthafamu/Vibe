@@ -14,7 +14,7 @@ import userRouter from './Router/userRouter.js';
 import postRouter from  './Router/postRouter.js'
 import { verifyToken } from "./middleware/auth.js";
 
-const  __filename = fileURLToPath(import.meta.url);
+const  __filename = fileURLToPath(import.meta.url); 
 const __dirname = path.dirname(__filename);
 
 dotenv.config();
