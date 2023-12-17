@@ -13,7 +13,10 @@ import authRouter from './Router/authRouter.js';
 import userRouter from './Router/userRouter.js';
 import postRouter from  './Router/postRouter.js'
 import { verifyToken } from "./middleware/auth.js";
-
+import User from './model/user.js';
+import Post from  './model/post.js';
+import {users,posts} from './data/data.js'
+import user from "./model/user.js";
 const  __filename = fileURLToPath(import.meta.url); 
 const __dirname = path.dirname(__filename);
 
@@ -27,7 +30,6 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-
 
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
@@ -58,7 +60,8 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
      
     });
 
-
+// User.insertMany(users);
+// Post.insertMany(posts);
   
     
 }).catch((err) => {

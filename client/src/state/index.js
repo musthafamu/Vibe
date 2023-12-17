@@ -5,6 +5,7 @@ const initialState = {
   user: null,
   token: null,
   posts: [],
+  
 };
 
 export const authSlice = createSlice({
@@ -27,6 +28,18 @@ export const authSlice = createSlice({
         console.error("user friends non-existent :(");
       }
     },
+    setComment:(state,action)=>{
+      const { postId, comment } = action.payload;
+      const updatedPosts = state.posts.map((post) => {
+        if (post._id === postId) {
+          post.comments.push(comment);
+          return post;
+        }
+        return post;
+      });
+      state.posts = updatedPosts;
+
+    },
     setPosts: (state, action) => {
       state.posts = action.payload.posts;
     },
@@ -37,9 +50,9 @@ export const authSlice = createSlice({
       });
       state.posts = updatedPosts;
     },
-  },
+  },  
 });
 
-export const {  setLogin, setLogout, setFriends, setPosts, setPost } =
+export const {  setLogin, setLogout, setFriends,setComment, setPosts, setPost } =
   authSlice.actions;
 export default authSlice.reducer;

@@ -13,8 +13,8 @@ const LoginPage = () => {
         p="1rem 6%"
         textAlign="center"
       >
-        <Typography fontWeight="bold" fontSize="50px" color="primary">
-          FunVibe
+        <Typography sx={{color:colorToken.sky}} fontWeight="bold" fontSize="50px" color="primary">
+          SnapJoy
         </Typography>
       </Box>
 

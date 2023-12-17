@@ -37,9 +37,8 @@ export const MypostWidget=({picturePath})=>{
    const {_id}=useSelector((state)=>state.user);
    const token=useSelector((state)=>state.token);
    const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
- const  data=useSelector((state)=>state.posts)
- console.log(data)
- 
+
+
    const handlePost = async () => {
     const formData = new FormData();
     formData.append("userId", _id);
@@ -56,7 +55,7 @@ export const MypostWidget=({picturePath})=>{
     });
     const posts = await response.json();
     
-    dispatch(setPosts({ posts }));
+    dispatch(setPosts( posts ));
     setImage(null);
     setPost("");
   };

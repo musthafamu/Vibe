@@ -12,9 +12,12 @@ import {
   import { setPost } from "../../state/index";
   import { colorToken } from "../../theme";
   import FlexBetween from "../../components/Flexbetween";
+import CommentFiled from "./CommentFiled";
+
   const PostWidget = ({
     postId,
     postUserId,
+  createdDate,
     name,
     description,
     location,
@@ -29,6 +32,10 @@ import {
     const loggedInUserId = useSelector((state) => state.user._id);
     const isLiked = Boolean(likes[loggedInUserId]);
     const likeCount = Object.keys(likes).length;
+    const dateObject = new Date(createdDate);
+   console.log(comments)
+    const date = dateObject.toLocaleDateString('en-US');
+    const year = dateObject.getFullYear();
   
 
     const patchLike = async () => {
@@ -55,6 +62,7 @@ import {
         <Typography color={colorToken.black} sx={{ mt: "1rem" }}>
           {description}
         </Typography>
+        <Divider/>
         {picturePath && (
           <img
             width="100%"
@@ -80,9 +88,13 @@ import {
             <FlexBetween gap="0.3rem">
               <IconButton onClick={() => setIsComments(!isComments)}>
                 <ChatBubbleOutlineOutlined />
-
+               
               </IconButton>
-              <Typography>{comments.length}</Typography>
+            
+            </FlexBetween>
+            <FlexBetween gap="0.3rem">
+              
+              <Typography>{date}/{year}</Typography>
             </FlexBetween>
           </FlexBetween>
   
@@ -90,19 +102,23 @@ import {
             <ShareOutlined />
           </IconButton>
         </FlexBetween>
+        {isComments &&    
+      <CommentFiled postId={postId} />  
+ 
+      }
         {isComments && (
-          <Box mt="0.5rem">
-            {comments.map((comment, i) => (
+          comments.map((comment,i)=>{
+            return(
               <Box key={`${name}-${i}`}>
-                <Divider />
-                <Typography sx={{ color: colorToken.black, m: "0.5rem 0", pl: "1rem" }}>
-                  {comment}
-                </Typography>
-              </Box>
-            ))}
-            <Divider />
-          </Box>
-        )}
+        <Divider />
+        <Typography sx={{ color: colorToken.black, m: "0.5rem 0", pl: "1rem" }}>
+
+          {comment.text}
+        </Typography>
+      </Box> 
+            )
+          })
+            )}
       </WidgetWrapper>
     );
   };

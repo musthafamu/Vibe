@@ -1,6 +1,5 @@
-
 import Post from "../model/post.js";
-import User from "../model/user.js"
+import User from "../model/user.js";
 
 
 export const createPost = async (req, res) => {
@@ -13,17 +12,33 @@ export const createPost = async (req, res) => {
       lastName: user.lastName,
       location: user.location,
       description,
-      userPicturePath: user.picturePath,
+      userPicturePath:user.picturePath,
       picturePath,
       likes: {},
       comments: [],
     });
     await newPost.save();
-    const post= await Post.find();
-    res.status(201).json(post)
+ 
+    res.status(201).json(newPost)
   
   } catch (err) {
     res.status(409).json({ message: err.message });
+  }
+};
+
+export const addComment = async (req, res) => {
+  try {
+    const {postId}=req.params;
+    const { comment } = req.body;
+    const post = await Post.findOne({postId});
+    if (!post) {
+      return res.status(404).json({ message: 'Post not d found' });
+    }
+    post.comments.push({text:comment});
+    const updatedPost = await post.save();
+    res.status(201).json(updatedPost);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -58,7 +73,7 @@ export const likePost=async(req,res)=>{
 
   if(isLiked){
     post.likes.delete(userId);
-  }else{
+  }else{ 
 
     post.likes.set(userId,true)
   };

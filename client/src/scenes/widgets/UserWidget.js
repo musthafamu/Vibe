@@ -12,14 +12,13 @@ import {
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
   import {colorToken} from "../../theme"
-  import LinkedInIcon from '@mui/icons-material/LinkedIn';
-  import TwitterIcon from '@mui/icons-material/Twitter';
-
+  
   export const UserWidget = ({ userId, picturePath }) => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
     const token = useSelector((state) => state.token);
-
+   const friend=useSelector((state)=>state.user.friends);
+   
     const getUser = async () => {
       const response = await fetch(`http://localhost:3001/users/${userId}`, {
         method: "GET",
@@ -39,7 +38,7 @@ import {
   
     useEffect(() => {
       getUser();
-    }, [token]); 
+    }, [token,friend]); 
   
     if (!user) {
       return null;
@@ -125,37 +124,13 @@ import {
   
         <Divider />
   
-        {/* FOURTH ROW */}
-        <Box p="1rem 0">
-          <Typography fontSize="1rem" color={colorToken.black} fontWeight="500" mb="1rem">
-            Social Profiles
-          </Typography>
-  
-          <FlexBetween gap="1rem" mb="0.5rem">
-            <FlexBetween gap="1rem">
-            
-              <Box>
-                <Typography color={colorToken.black} fontWeight="500">
-                  <TwitterIcon/>
-                </Typography>
-              </Box>
-            </FlexBetween>
-            <EditOutlined sx={{ color: colorToken.black }} />
-          </FlexBetween>
-  
-          <FlexBetween gap="1rem">
-            <FlexBetween gap="1rem">
+        
+          
              
-              <Box>
-                <Typography color={colorToken.black} fontWeight="500">
-               <LinkedInIcon />
-                </Typography>
-
-              </Box>
-            </FlexBetween>
-            <EditOutlined sx={{ color: colorToken.black }} />
-          </FlexBetween>
-        </Box>
+  
+          
+             
+      
       </WidgetWrapper>
     );
   };

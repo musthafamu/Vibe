@@ -6,12 +6,10 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    id:{
-      type:String,
-    },
     firstName: {
       type: String,
       required: true,
+      
     },
     lastName: {
       type: String,
@@ -21,14 +19,25 @@ const postSchema = mongoose.Schema(
     description: String,
     picturePath: String,
     userPicturePath: String,
+    createdDate: {
+      type: Date,
+      default: Date.now,
+    },
+  
     likes: {
       type: Map,
       of: Boolean,
     },
-    comments: {
-      type: Array,
-      default: [],
-    },
+  
+    comments: [
+      {
+        text: {
+          type: String,
+        
+        },
+        
+      },
+    ]
   },
   { timestamps: true }
 );

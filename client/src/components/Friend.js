@@ -7,13 +7,20 @@ import FlexBetween from "./Flexbetween";
 import UserImage from "./UserImage";
 import { colorToken } from "../theme";
 
+
+
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
+  const user = useSelector((state) => state.user);
   const friends = useSelector((state) => state.user.friends);
-  const isFriend = friends.find((friend) => friend._id === friendId);
+  const isFriend = Boolean(
+    Array.isArray(friends) && friends.find((friend) => friend._id === friendId)
+
+  );
+  const isCurrentUser = user._id === friendId;
 
   const patchFriend = async () => {
     const response = await fetch(
@@ -58,16 +65,18 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           </Typography>
         </Box>
       </FlexBetween>
-      <IconButton
-        onClick={() => patchFriend()}
-        sx={{ backgroundColor:"whitesmoke" , p: "0.6rem" }}
-      >
-        {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: colorToken.sky }} />
-        ) : (
-          <PersonAddOutlined sx={{ color: colorToken.sky }} />
-        )}
-      </IconButton>
+      {!isCurrentUser && (
+        <IconButton
+          onClick={() => patchFriend()}
+          sx={{ backgroundColor: "whitesmoke", p: "0.6rem" }}
+        >
+          {isFriend ? (
+            <PersonRemoveOutlined sx={{ color: colorToken.sky }} />
+          ) : (
+            <PersonAddOutlined sx={{ color: colorToken.sky }} />
+          )}
+        </IconButton>
+      )}
     </FlexBetween>
   );
 };

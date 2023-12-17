@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "../../state/index"
 import { colorToken } from "../../theme";
-import Friend from '../../components/Friend'
+import Friend from '../../components/Friend';
+
 const FriendListWidget = ({ userId }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
@@ -36,17 +37,19 @@ const FriendListWidget = ({ userId }) => {
         Friend List
         <Divider/>
       </Typography>
-      <Box display="flex" flexDirection="column" gap="1.5rem">
-        {friends.length >0 ? friends.map((friend) => (
-          <Friend
-            key={friend._id}
-            friendId={friend._id}
-            name={`${friend.firstName} ${friend.lastName}`}
-            subtitle={friend.occupation}
-            userPicturePath={friend.picturePath}
-          />
-        )):(<Typography sx={{textAlign:"center"}} >no friends</Typography>)    }
-          </Box>
+      
+        {friends.length >0 ? friends.map((friend,index) => (
+        <Box key={`friend-box-${index}`} display="flex" flexDirection="column" gap="1.5rem">
+        <Friend
+          key={friend._id}
+          friendId={friend._id}
+          name={`${friend.firstName} ${friend.lastName}`}
+          subtitle={friend.occupation}
+          userPicturePath={friend.picturePath}
+        />
+      </Box>
+        )):(<Typography  sx={{textAlign:"center"}} >no friends</Typography>)    }
+          
     </WidgetWrapper>
   );
 };

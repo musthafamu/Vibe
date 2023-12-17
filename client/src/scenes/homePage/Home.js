@@ -2,7 +2,6 @@ import React from 'react'
 import { Select,Box,useMediaQuery} from '@mui/material';
 import { useSelector } from "react-redux"; 
 import Navbar from '../navBar/Navbar'
-import WidgetWrapper from '../../components/WidgetWrapper';
 import { UserWidget } from '../widgets/UserWidget';
 import { MypostWidget } from '../widgets/MypostWidget';
 import {PostsWidget} from '../widgets/PostsWidget';
@@ -11,6 +10,7 @@ import FriendListWidget from '../widgets/FriendsWidget';
 function Home() {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { _id, picturePath } = useSelector((state) => state.user);
+
 
   return (
     <Box sx={{background:"#34bdeb",height:"full"}}>
@@ -36,7 +36,7 @@ function Home() {
       <FriendListWidget  userId={_id} />
       </Box>
 
-     <PostsWidget />
+     <PostsWidget userId={_id} />
 
 
           </Box>

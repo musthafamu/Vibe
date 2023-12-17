@@ -5,12 +5,12 @@ import React from 'react'
 import {setPosts} from '../../state/index';
 import PostWidget from './PostWidget';
 import { Box } from '@mui/material';
-
+ 
 export const PostsWidget = ({ userId, isProfile = false }) => {
+
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.posts);
     const token = useSelector((state) => state.token);
-    console.log(token)
     const getPosts = async () => {
       const response = await fetch("http://localhost:3001/posts", {
         method: "GET",
@@ -19,7 +19,7 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
       const data = await response.json();
       dispatch(setPosts({ posts: data }));
     };
-
+ 
     const getUserPosts = async () => {
         const response = await fetch(
           `http://localhost:3001/posts/${userId}/posts`,
@@ -29,25 +29,26 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
           }
         );
         const data = await response.json();
-      
         dispatch(setPosts({ posts: data }));
       };
       useEffect(() => {
         if (isProfile) {
           getUserPosts();
-        } else {
-          getPosts();
-        }
+        } 
       }, []); 
+      useEffect(()=>{
+   getPosts()
+      },[])
     
   return  (
  <Box>  
- {posts.map(
+ {Array.isArray(posts)&&posts.map(
         ({
         
           _id,
           userId,
           firstName,
+          createdDate,
           lastName,
           description,
           location,
@@ -60,6 +61,7 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
 
           <PostWidget
             postId={_id}
+            createdDate={createdDate}
             postUserId={userId}
             name={`${firstName} ${lastName}`}
             description={description}
