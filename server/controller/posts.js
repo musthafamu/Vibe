@@ -1,7 +1,6 @@
 import Post from "../model/post.js";
 import User from "../model/user.js";
 
-
 export const createPost = async (req, res) => {
   try {
     const { userId, description, picturePath } = req.body;
@@ -46,8 +45,9 @@ export const addComment = async (req, res) => {
 
 export const getFeedPosts=async(req,res)=>{
     try{
-        const post=await Post.find();
-        res.status(200).json(post);
+      
+      const paginatedResult=res.paginatedResult;
+        res.status(200).json(paginatedResult);
     }catch(err){
         res.status(404).json({message:err.message})
     }

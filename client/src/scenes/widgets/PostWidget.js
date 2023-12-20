@@ -13,7 +13,7 @@ import {
   import { colorToken } from "../../theme";
   import FlexBetween from "../../components/Flexbetween";
 import CommentFiled from "./CommentFiled";
-
+import BasicPagination from './paginations'
   const PostWidget = ({
     postId,
     postUserId,
@@ -89,7 +89,13 @@ import CommentFiled from "./CommentFiled";
               <IconButton onClick={() => setIsComments(!isComments)}>
                 <ChatBubbleOutlineOutlined />
                
+                <Typography sx={{ color: colorToken.black, m: "0.5rem 0", pl: "1rem" }}>
+
+{comments.length}
+</Typography>
+      
               </IconButton>
+
             
             </FlexBetween>
             <FlexBetween gap="0.3rem">
@@ -104,7 +110,7 @@ import CommentFiled from "./CommentFiled";
         </FlexBetween>
         {isComments &&    
       <CommentFiled postId={postId} />  
- 
+           
       }
         {isComments && (
           comments.map((comment,i)=>{
