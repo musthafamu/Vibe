@@ -10,7 +10,8 @@ import FriendListWidget from '../widgets/FriendsWidget';
 function Home() {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { _id, picturePath } = useSelector((state) => state.user);
-
+  const token=useSelector((state)=>state.token);
+  console.log(token)
 
   return (
     <Box sx={{background:"#34bdeb",height:"full"}}>

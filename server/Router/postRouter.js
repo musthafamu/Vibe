@@ -6,6 +6,8 @@ import { getFeedPosts,createPost,addComment,getUserPost,likePost } from "../cont
 const router=express.Router();
 
 
+ 
+
 router.post("/",verifyToken,createPost)
 router.get("/",pagination(Post),  verifyToken,getFeedPosts)
 router.get("/:userId/posts",verifyToken,getUserPost);

@@ -1,38 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from '../../state/index';
-import PostWidget from './PostWidget';
+import { UserPost } from './userPost';
 import { Box } from '@mui/material';
 import BasicPagination from './paginations';
+import { Feeds } from './FeedsWidget';
 
 export const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
   const [limit, setLimit] = useState(10);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
   const [loading, setLoading] = useState(true);
 
-  const getPosts = async () => {
+  const getPosts = async (currentPage) => {
     try {
-      const response = await fetch(`http://localhost:3001/posts?page=${page}&limit=${limit}`, {
+      const response = await fetch(`http://localhost:3001/posts?page=${currentPage}&limit=${limit}`, {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` },
       });
+      
+   
       const data = await response.json();
 
-      // Calculate total pages based on the total count from the server response headers
-      const totalCount = parseInt(response.headers.get('X-Total-Count'), 10);
-      const totalPages = Math.ceil(totalCount / limit);
-      setTotalPages(totalPages);
+      dispatch(setPosts({
+        posts: data.results,
+      }));
 
-      dispatch(setPosts({ posts: data }));
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+    console.log(newPage)
   };
 
   const getUserPosts = async () => {
@@ -44,24 +50,29 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
     dispatch(setPosts({ posts: data }));
   };
 
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-  };
-
   useEffect(() => {
-    if (isProfile) {
-      getUserPosts();
-    }
-  }, [isProfile, userId, token]);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        if (isProfile) {
+          await getUserPosts();
+        } else {
+          await getPosts(page);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  useEffect(() => {
-    getPosts();
-  }, [page, limit, token, dispatch]);
+    fetchData();
+  }, [isProfile, page]);
 
   return (
-    <Box>
+    <>
       {loading ? (
-        <p>Loading...</p>
+        <p>Loading....</p>
       ) : (
         <>
           {Array.isArray(posts) &&
@@ -79,28 +90,46 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
                 likes,
                 comments,
               }) => (
-                <Box key={_id} sx={{ boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)' }}>
-                  <PostWidget
-                    postId={_id}
-                    createdDate={createdDate}
-                    postUserId={userId}
-                    name={`${firstName} ${lastName}`}
-                    description={description}
-                    location={location}
-                    picturePath={picturePath}
-                    userPicturePath={userPicturePath}
-                    likes={likes}
-                    comments={comments}
-                  />
-                </Box>
+                <React.Fragment key={_id}>
+                  {isProfile ? (
+                    <UserPost
+                      postId={_id}
+                      createdDate={createdDate}
+                      postUserId={userId}
+                      name={`${firstName} ${lastName}`}
+                      description={description}
+                      location={location}
+                      picturePath={picturePath}
+                      userPicturePath={userPicturePath}
+                      likes={likes}
+                      comments={comments}
+                    />
+                  ) : (
+                    <Feeds
+                      postId={_id}
+                      createdDate={createdDate}
+                      postUserId={userId}
+                      name={`${firstName} ${lastName}`}
+                      description={description}
+                      location={location}
+                      picturePath={picturePath}
+                      userPicturePath={userPicturePath}
+                      likes={likes}
+                      comments={comments}
+                    />
+                  )}
+                </React.Fragment>
               )
             )}
-
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <BasicPagination page={page} totalPages={totalPages} handlePageChange={handlePageChange} />
+          <Box sx={{ display: 'flex', justifyContent: 'center', margin: '25px' }}>
+            <BasicPagination
+               page={page}
+               totalPages={totalPages}
+               onPageChange={handlePageChange}
+            />
           </Box>
         </>
       )}
-    </Box>
+    </>
   );
 };
