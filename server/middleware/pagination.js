@@ -30,7 +30,10 @@ export const pagination=(model)=>{
           res.paginatedResult = results;
           results.total= totalDocuments;
 
+
+          
     
+        
           next();
         }catch(e){
           res.status(500).json({message:e.message})

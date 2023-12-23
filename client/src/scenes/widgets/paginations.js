@@ -10,7 +10,7 @@ const PostPagination = ({ page, totalPages, onPageChange }) => {
 
   return (
     <Stack spacing={2}>
-      <Pagination count={totalPages} page={page} onChange={handlePageChange} />
+      <Pagination color="secondary" count={totalPages} page={page} onChange={handlePageChange} />
     </Stack>
   );
 };

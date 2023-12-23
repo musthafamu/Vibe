@@ -12,7 +12,7 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
   const token = useSelector((state) => state.token);
   const [page, setPage] = useState(2);
   const [limit, setLimit] = useState(10);
-  const [totalPages, setTotalPages] = useState(10);
+  const [totalPages, setTotalPages] = useState();
   const [loading, setLoading] = useState(true);
 
   const getPosts = async (currentPage) => {
@@ -22,9 +22,13 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       
-   
+      
       const data = await response.json();
+      const totalPages = Math.round(data.total / 10);
 
+
+      setTotalPages( totalPages)
+     console.log(data)
       dispatch(setPosts({
         posts: data.results,
       }));
@@ -38,7 +42,7 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
-    console.log(newPage)
+ 
   };
 
   const getUserPosts = async () => {
@@ -121,6 +125,7 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
                 </React.Fragment>
               )
             )}
+            {!isProfile &&
           <Box sx={{ display: 'flex', justifyContent: 'center', margin: '25px' }}>
             <BasicPagination
                page={page}
@@ -128,6 +133,7 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
                onPageChange={handlePageChange}
             />
           </Box>
+}
         </>
       )}
     </>
