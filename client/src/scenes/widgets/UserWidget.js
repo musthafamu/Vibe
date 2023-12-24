@@ -1,6 +1,5 @@
 import {
     ManageAccountsOutlined,
-    EditOutlined,
     LocationOnOutlined,
     WorkOutlineOutlined,
   } from "@mui/icons-material";
@@ -106,7 +105,6 @@ import {
   
         <Divider />
   
-        {/* THIRD ROW */}
         <Box p="1rem 0">
           <FlexBetween mb="0.5rem">
             <Typography color={colorToken.black}>Who's viewed your profile</Typography>

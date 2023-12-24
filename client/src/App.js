@@ -6,6 +6,7 @@ import './App.css';
 import { useMemo } from 'react';
 import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
 import {CssBaseline,ThemeProvider} from "@mui/material";
+import ChatWidget from './scenes/widgets/ChatWidget';
 
 
 
@@ -20,6 +21,7 @@ function App() {
     <Route path='/'  element={<Login/>}/>
     <Route path='/home'  element={isAuth ? <Home/>:<Navigate to="/" />}/>
     <Route path='/profile/:userId'  element={ isAuth ? <Profile />:<Navigate to='/' />}/>
+    <Route path='/chat'  element={<ChatWidget/>}/>
    </Routes>
   </CssBaseline>
     

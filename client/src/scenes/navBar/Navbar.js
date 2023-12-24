@@ -71,7 +71,8 @@ const Navbar = () => {
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
         
-          <Message sx={{ fontSize: "25px" }} />
+        <Message onClick={() => navigate('/chat')} sx={{ fontSize: '25px' }} />
+
           <Notifications sx={{ fontSize: "25px" }} />
           <Help sx={{ fontSize: "25px" }} />
           <FormControl variant="standard" value={fullName}>
@@ -137,7 +138,8 @@ const Navbar = () => {
             gap="3rem"
           >
             
-            <Message sx={{ fontSize: "25px" }} />
+            <Message onClick={() => navigate('/chat')} sx={{ fontSize: '25px' }} />
+          
             <Notifications sx={{ fontSize: "25px" }} />
             <Help sx={{ fontSize: "25px" }} />
             <FormControl variant="standard" value={fullName}>
