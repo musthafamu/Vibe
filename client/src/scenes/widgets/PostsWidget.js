@@ -10,11 +10,11 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState();
   const [loading, setLoading] = useState(true);
-
+ 
   const getPosts = async (currentPage) => {
     try {
       const response = await fetch(`http://localhost:3001/posts?page=${currentPage}&limit=${limit}`, {
@@ -71,7 +71,7 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
     };
 
     fetchData();
-  }, [isProfile, page]);
+  }, [isProfile,page,posts.comments]);
 
   return (
     <>

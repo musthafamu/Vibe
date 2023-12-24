@@ -109,8 +109,7 @@ createdDate,
         </IconButton>
       </FlexBetween>
       {isComments &&    
-    <CommentFiled postId={postId} />  
-         
+    <CommentFiled comments={comments} postId={postId} />  
     }
       {isComments && (
         comments.map((comment,i)=>{

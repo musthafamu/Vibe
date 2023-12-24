@@ -27,20 +27,44 @@ export const createPost = async (req, res) => {
 
 export const addComment = async (req, res) => {
   try {
-    const {postId}=req.params;
+    const postId = req.params.postId;
     const { comment } = req.body;
-    const post = await Post.findOne({postId});
+
+    const post = await Post.findById(postId);
+
     if (!post) {
-      return res.status(404).json({ message: 'Post not d found' });
+      return res.status(404).json({ message: `Post with ID ${postId} not found` });
     }
-    post.comments.push({text:comment});
+
+    post.comments.push({ text: comment });
     const updatedPost = await post.save();
+
+   
     res.status(201).json(updatedPost);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+export const getComment = async (req, res) => {
+  try {
+    const postId = req.params.postId;
 
+   
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: `Post with ID ${postId} not found` });
+    }
+
+
+    const comments = post.comments;
+
+    res.status(200).json(comments);
+  } catch (e) {
+    console.error('Error:', e.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 
 
 export const getFeedPosts=async(req,res)=>{
@@ -87,5 +111,6 @@ export const likePost=async(req,res)=>{
     res.status(409).json({error:err.message})
    }
 }
+
 
 

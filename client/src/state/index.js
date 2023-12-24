@@ -9,6 +9,7 @@ const initialState = {
 
 };
 
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -34,13 +35,18 @@ export const authSlice = createSlice({
       const updatedPosts = state.posts.map((post) => {
         if (post._id === postId) {
           post.comments.push(comment);
-          return post;
         }
         return post;
       });
       state.posts = updatedPosts;
 
     },
+    setCommentAll: (state, action) => {
+      state.posts.forEach((post) => {
+        post.comments = action.payload.comments;
+      });
+    },
+    
     setPosts: (state, action) => {
       state.posts = action.payload.posts;
 
@@ -55,6 +61,6 @@ export const authSlice = createSlice({
   },  
 });
 
-export const {  setLogin, setLogout, setFriends,setComment, setPosts, setPost } =
+export const {  setLogin,setCommentAll, setLogout, setFriends,setComment, setPosts, setPost } =
   authSlice.actions;
 export default authSlice.reducer;

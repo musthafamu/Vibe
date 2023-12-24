@@ -5,6 +5,7 @@ import {
   ShareOutlined,
 } from "@mui/icons-material";
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import UserImage from '../../components/UserImage';
 import Friend from '../../components/Friend'
 import WidgetWrapper from '../../components/WidgetWrapper'
 import { useState } from "react";
@@ -36,7 +37,7 @@ createdDate,
 
   const date = dateObject.toLocaleDateString('en-US');
   const year = dateObject.getFullYear();
-
+  
 
   const patchLike = async () => {
     const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
@@ -59,9 +60,13 @@ createdDate,
         subtitle={location}
         userPicturePath={userPicturePath}
       />
+      <Box sx={{display:"flex",gap:"1rem"}}>
+
       <Typography color={colorToken.black} sx={{ mt: "1rem" }}>
         {description}
       </Typography>
+
+      </Box>
       <Divider/>
       {picturePath && (
         <img
@@ -87,7 +92,7 @@ createdDate,
 
           <FlexBetween gap="0.3rem">
             <IconButton onClick={() => setIsComments(!isComments)}>
-              <ChatBubbleOutlineOutlined />
+              {/* <ChatBubbleOutlineOutlined /> */}
              
               <Typography sx={{ color: colorToken.black, m: "0.5rem 0", pl: "1rem" }}>
 
@@ -109,18 +114,20 @@ createdDate,
         </IconButton>
       </FlexBetween>
       {isComments &&    
-    <CommentFiled postId={postId} />  
+    <CommentFiled comments={comments} isComments={isComments} postId={postId} />  
          
     }
       {isComments && (
         comments.map((comment,i)=>{
           return(
             <Box key={`${name}-${i}`}>
-      <Divider />
       <Typography sx={{ color: colorToken.black, m: "0.5rem 0", pl: "1rem" }}>
 
         {comment.text}
       </Typography>
+     
+
+      <Divider />
     </Box> 
           )
         })

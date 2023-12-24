@@ -53,7 +53,7 @@ import {
       impression,
       friends,
     } = user;
-    console.log(impression,viewedProfile)
+    
   
     return (
       <WidgetWrapper sx={{    boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)',}} backgroundColor={colorToken.sky}>
