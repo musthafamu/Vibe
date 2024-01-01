@@ -1,4 +1,4 @@
-// ChatWidget.js
+
 
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
@@ -15,7 +15,7 @@ const ChatWidget = () => {
   const firstName = useSelector((state) => state.user.firstName);
 
   useEffect(() => {
-    // Event listener for receiving chat messages
+    
     const handleChatMessage = (message) => {
       console.log('Received message:', message);
       setMessages((prevMessages) => [...prevMessages, message]);
@@ -23,18 +23,18 @@ const ChatWidget = () => {
 
     socket.on('chat message', handleChatMessage);
 
-    // Cleanup when the component unmounts
+  
     return () => {
       socket.off('chat message', handleChatMessage);
     };
-  }, []); // Empty dependency array ensures the effect runs only once
+  }, []);
 
   const sendMessage = () => {
     if (inputMessage.trim() !== '') {
-      // Emit a chat message to the server
+    
       socket.emit('chat message', { text: inputMessage, sender: firstName });
 
-      // Clear the input field
+      
       setInputMessage('');
     }
   };

@@ -31,9 +31,8 @@ const postSchema = mongoose.Schema(
   
     comments: [
       {
-        text: {
+        text: { 
           type: String,
-        
         },
         
       },

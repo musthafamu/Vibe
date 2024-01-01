@@ -5,6 +5,8 @@ import { UserPost } from './userPost';
 import { Box } from '@mui/material';
 import BasicPagination from './paginations';
 import { Feeds } from './FeedsWidget';
+import { debounce } from 'lodash';
+
 
 export const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
@@ -15,7 +17,7 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
   const [totalPages, setTotalPages] = useState();
   const [loading, setLoading] = useState(true);
  
-  const getPosts = async (currentPage) => {
+ const getPosts = async (currentPage) => {
     try {
       const response = await fetch(`http://localhost:3001/posts?page=${currentPage}&limit=${limit}`, {
         method: 'GET',
@@ -25,7 +27,6 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
       
       const data = await response.json();
       const totalPages = Math.round(data.total / 10);
-
 
       setTotalPages( totalPages)
      console.log(data)
@@ -54,24 +55,24 @@ export const PostsWidget = ({ userId, isProfile = false }) => {
     dispatch(setPosts({ posts: data }));
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        if (isProfile) {
-          await getUserPosts();
-        } else {
-          await getPosts(page);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      if (isProfile) {
+        await getUserPosts();
+      } else {
+        await getPosts(page);
       }
-    };
-
-    fetchData();
-  }, [isProfile,page,posts.comments]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const debouncedFetchData = debounce(fetchData, 1000); 
+  useEffect(() => {
+    fetchData()
+  }, [isProfile,page,posts?.length]);
 
   return (
     <>

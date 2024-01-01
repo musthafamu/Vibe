@@ -23,7 +23,7 @@ export default function CommentField({ comments,isComments,postId }) {
 
   const dispatch = useDispatch();
 
-  console.log(postId)
+  
   const addComment = async () => {
   
       const response = await fetch(`http://localhost:3001/posts/${postId}/comment`, {
@@ -39,8 +39,10 @@ export default function CommentField({ comments,isComments,postId }) {
         dispatch(setComment({ postId, comment: data }));
       }
       setcomment('');
+
+      getComment();
       
-        console.error('Failed to add comment:', response.statusText);
+       
       
     
   };
@@ -56,8 +58,9 @@ export default function CommentField({ comments,isComments,postId }) {
     dispatch(setCommentAll({comments:data}))
   }
   useEffect(() => {
+    console.log("is comment changed",isComments)
     getComment();
-  }, [postId,comments, token]);
+  }, []);
 
  
 

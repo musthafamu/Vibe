@@ -58,6 +58,7 @@ export const MypostWidget=({picturePath})=>{
     dispatch(setPosts( posts ));
     setImage(null);
     setPost("");
+    
   };
 
 

@@ -1,6 +1,7 @@
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import Form from "./Form";
 import { colorToken } from "../../theme";
+
 const LoginPage = () => {
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
@@ -13,7 +14,17 @@ const LoginPage = () => {
         p="1rem 6%"
         textAlign="center"
       >
-        <Typography sx={{color:colorToken.sky}} fontWeight="bold" fontSize="50px" color="primary">
+         <Typography
+          fontWeight="bold"
+          fontSize="clamp(3rem, 3rem, 3.25rem)"
+          color="primary"
+         
+          sx={{
+              textShadow:"0px 0px 1px  black ",
+              color:colorToken.sky,
+              cursor: "pointer"
+          }}
+        >
           SnapJoy
         </Typography>
       </Box>
@@ -25,9 +36,7 @@ const LoginPage = () => {
         borderRadius="1.5rem"
         backgroundColor={colorToken.background}
       >
-        <Typography fontWeight="100" variant="h5" sx={{ mb: "1.5rem" }}>
-          Welcome to FunVibe 😊😊
-        </Typography>
+        
          <Form />
       </Box>
     </Box>

@@ -38,8 +38,6 @@ export const addComment = async (req, res) => {
 
     post.comments.push({ text: comment });
     const updatedPost = await post.save();
-
-   
     res.status(201).json(updatedPost);
   } catch (err) {
     res.status(500).json({ message: err.message });

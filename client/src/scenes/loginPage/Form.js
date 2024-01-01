@@ -17,7 +17,8 @@ import { setLogin } from "../../state/index";
 import Dropzone from "react-dropzone";
 import FlexBetween from "../../components/Flexbetween";
 import {colorToken} from '../../theme'
-import Login from '../loginPage/Login'
+import Login from '../loginPage/Login';
+
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),

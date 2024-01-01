@@ -10,6 +10,5 @@ router.get("/",pagination(Post),  verifyToken,getFeedPosts)
 router.get("/:userId/posts",verifyToken,getUserPost);
 router.post("/:postId/comment",verifyToken,addComment);
 router.get("/:postId/comment",verifyToken,getComment);
-
 router.patch("/:id/like",verifyToken,likePost)
 export default router;
